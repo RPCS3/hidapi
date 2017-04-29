@@ -1022,6 +1022,11 @@ hid_device * HID_API_EXPORT hid_open_path(const char *path)
 	}
 }
 
+int HID_API_EXPORT hid_write_control(hid_device *dev, const unsigned char *data, size_t length)
+{
+	//RPCS3 TODO: Test if this needs to be changed for control if we ever use it
+	return hid_write(dev, data, length);
+}
 
 int HID_API_EXPORT hid_write(hid_device *dev, const unsigned char *data, size_t length)
 {
