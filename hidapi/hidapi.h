@@ -383,6 +383,11 @@ extern "C" {
 		*/
 		HID_API_EXPORT const wchar_t* HID_API_CALL hid_error(hid_device *device);
 
+		/** RPCS3 EDIT: This attempts to write the output on the 'control' channel
+			Otherwise it's the exact same as hid_write
+		*/
+		int HID_API_EXPORT HID_API_CALL hid_write_control(hid_device *device, const unsigned char *data, size_t length);
+
 #ifdef __cplusplus
 }
 #endif

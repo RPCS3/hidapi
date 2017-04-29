@@ -114,6 +114,7 @@ extern "C" {
 	typedef BOOLEAN (__stdcall *HidD_FreePreparsedData_)(PHIDP_PREPARSED_DATA preparsed_data);
 	typedef NTSTATUS (__stdcall *HidP_GetCaps_)(PHIDP_PREPARSED_DATA preparsed_data, HIDP_CAPS *caps);
 	typedef BOOLEAN (__stdcall *HidD_SetNumInputBuffers_)(HANDLE handle, ULONG number_buffers);
+	typedef BOOLEAN(__stdcall *HidD_SetOutputReport_)(HANDLE handle, PVOID data, ULONG length);
 
 	static HidD_GetAttributes_ HidD_GetAttributes;
 	static HidD_GetSerialNumberString_ HidD_GetSerialNumberString;
@@ -126,6 +127,7 @@ extern "C" {
 	static HidD_FreePreparsedData_ HidD_FreePreparsedData;
 	static HidP_GetCaps_ HidP_GetCaps;
 	static HidD_SetNumInputBuffers_ HidD_SetNumInputBuffers;
+	static HidD_SetOutputReport_ HidD_SetOutputReport;
 
 	static HMODULE lib_handle = NULL;
 	static BOOLEAN initialized = FALSE;
@@ -216,6 +218,7 @@ static int lookup_functions()
 		RESOLVE(HidD_FreePreparsedData);
 		RESOLVE(HidP_GetCaps);
 		RESOLVE(HidD_SetNumInputBuffers);
+		RESOLVE(HidD_SetOutputReport);
 #undef RESOLVE
 	}
 	else
@@ -663,6 +666,20 @@ end_of_function:
 	return bytes_written;
 }
 
+int HID_API_EXPORT HID_API_CALL hid_write_control(hid_device *dev, const unsigned char *data, size_t length)
+{
+	DWORD bytes_written = length;
+	BOOL res;
+
+	res = HidD_SetOutputReport(dev->device_handle, (PVOID)data, (ULONG)length);
+
+	if (!res) {
+		register_error(dev, "SetOutputReport");
+		bytes_written = -1;
+	}
+
+	return length;
+}
 
 int HID_API_EXPORT HID_API_CALL hid_read_timeout(hid_device *dev, unsigned char *data, size_t length, int milliseconds)
 {
