@@ -18,3 +18,5 @@ windows/Makefile.in
 Makefile
 stamp-h1
 libtool
+/windows/.vs/hidapi/v15
+/windows/tmp/hidapi-Release-x64
