@@ -18,3 +18,5 @@ windows/Makefile.in
 Makefile
 stamp-h1
 libtool
+/windows/.vs/
+/windows/tmp/
