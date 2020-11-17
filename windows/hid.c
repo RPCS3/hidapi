@@ -932,7 +932,7 @@ int HID_API_EXPORT HID_API_CALL hid_write_control(hid_device *dev, const unsigne
 		bytes_written = -1;
 	}
 
-	return length;
+	return bytes_written;
 }
 
 int HID_API_EXPORT HID_API_CALL hid_read_timeout(hid_device *dev, unsigned char *data, size_t length, int milliseconds)
