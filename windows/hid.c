@@ -938,17 +938,16 @@ end_of_function:
 
 int HID_API_EXPORT HID_API_CALL hid_write_control(hid_device *dev, const unsigned char *data, size_t length)
 {
-	DWORD bytes_written = length;
 	BOOL res;
 
 	res = HidD_SetOutputReport(dev->device_handle, (PVOID)data, (ULONG)length);
 
 	if (!res) {
 		register_error(dev, "SetOutputReport");
-		bytes_written = -1;
+		return -1;
 	}
 
-	return length;
+	return (int)length;
 }
 
 int HID_API_EXPORT HID_API_CALL hid_read_timeout(hid_device *dev, unsigned char *data, size_t length, int milliseconds)
