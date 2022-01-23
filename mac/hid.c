@@ -1549,3 +1549,16 @@ HID_API_EXPORT const wchar_t * HID_API_CALL  hid_error(hid_device *dev)
 		return L"Success";
 	return last_global_error_str;
 }
+
+int HID_API_EXPORT hid_init_sixaxis_usb(hid_device *dev)
+{
+	const char data[] = { 0x42, 0x0C, 0x00, 0x00 };
+	size_t length = sizeof(data);
+	const unsigned char report_id = 0xF4;
+
+	if (IOHIDDeviceSetReport(dev->device_handle, kIOHIDReportTypeFeature, report_id, data, length) == kIOReturnSuccess) {
+		return length;
+	}
+
+	return -1;
+}
