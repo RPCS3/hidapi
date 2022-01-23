@@ -677,6 +677,14 @@ extern "C" {
 		*/
 		HID_API_EXPORT const char* HID_API_CALL hid_version_str(void);
 
+#ifdef __APPLE__
+		/** RPCS3 EDIT: Initializes a USB Sixaxis/DualShock 3 controller,
+		 *  which requires report_id to be separate from the data packet.
+		 *  Required on macOS Monterey.
+		 */
+		int HID_API_EXPORT hid_init_sixaxis_usb(hid_device *dev);
+#endif
+
 #ifdef __cplusplus
 }
 #endif
