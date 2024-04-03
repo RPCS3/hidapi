@@ -136,8 +136,8 @@ static void register_error_str(wchar_t **error_str, const char *msg)
 /* Semilar to register_error_str, but allows passing a format string with va_list args into this function. */
 static void register_error_str_vformat(wchar_t **error_str, const char *format, va_list args)
 {
-	char msg[256];
-	vsnprintf(msg, sizeof(msg), format, args);
+	char* msg = (char*)malloc(256);
+	vsnprintf(msg, 256, format, args);
 
 	register_error_str(error_str, msg);
 }
